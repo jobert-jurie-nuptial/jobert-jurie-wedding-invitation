@@ -1363,38 +1363,46 @@
             const rsvpForm = document.getElementById('weddingRsvpForm');
             const submitRsvpBtn = document.getElementById('submitRsvpBtn');
 
-            // --- 1. ACTIVE NAVIGATION TRACKING (SCROLL & CLICK HIGHLIGHT) ---
+            // --- 1. ACTIVE NAVIGATION TRACKING (MOBILE-OPTIMIZED INTERSECTION OBSERVER) ---
             const navLinks = document.querySelectorAll('.emerald-nav a');
-            const sections = document.querySelectorAll('section[id], div[id="main-content"] section[id]');
+            const sections = document.querySelectorAll('section[id]');
+            let isManualClick = false;
 
-            const setActiveNavLink = () => {
-                let currentSectionId = '';
-                const scrollPosition = window.scrollY + (window.innerHeight * 0.35);
-
-                sections.forEach(section => {
-                    const sectionTop = section.offsetTop;
-                    const sectionHeight = section.offsetHeight;
-
-                    if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-                        currentSectionId = section.getAttribute('id');
-                    }
-                });
-
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === `#${currentSectionId}`) {
-                        link.classList.add('active');
-                    }
-                });
+            const observerOptions = {
+                root: null,
+                rootMargin: '-20% 0px -50% 0px', // Focus region in viewport
+                threshold: 0
             };
 
-            window.addEventListener('scroll', setActiveNavLink);
-            setActiveNavLink();
+            const sectionObserver = new IntersectionObserver((entries) => {
+                if (isManualClick) return;
+
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const targetId = entry.target.getAttribute('id');
+                        navLinks.forEach(link => {
+                            const href = link.getAttribute('href').replace('#', '');
+                            if (href === targetId) {
+                                link.classList.add('active');
+                            } else {
+                                link.classList.remove('active');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => sectionObserver.observe(section));
 
             navLinks.forEach(link => {
                 link.addEventListener('click', function () {
+                    isManualClick = true;
                     navLinks.forEach(item => item.classList.remove('active'));
                     this.classList.add('active');
+
+                    setTimeout(() => {
+                        isManualClick = false;
+                    }, 800);
                 });
             });
 
