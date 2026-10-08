@@ -864,6 +864,66 @@
             transform: translateY(0);
         }
 
+        /* --- CUSTOM RSVP CONFIRMATION MODAL STYLES --- */
+        .rsvp-modal-overlay {
+            display: none;
+            position: fixed;
+            z-index: 3000;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(3, 28, 21, 0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .rsvp-modal-overlay.show {
+            display: flex;
+            animation: fadeInModal 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .rsvp-modal-card {
+            background-color: #05241b;
+            border: 1px solid var(--accent-gold);
+            border-radius: 20px;
+            padding: clamp(24px, 5vw, 40px) clamp(20px, 4vw, 36px);
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+            position: relative;
+        }
+
+        .rsvp-modal-icon {
+            font-size: 1.8rem;
+            color: var(--accent-gold);
+            margin-bottom: 10px;
+        }
+
+        .rsvp-modal-title {
+            font-family: var(--font-heading);
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            color: #FFFFFF;
+            margin-bottom: 8px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .rsvp-modal-message {
+            font-size: clamp(0.85rem, 1.8vw, 0.95rem);
+            color: #FAF9F6;
+            opacity: 0.9;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        @keyframes fadeInModal {
+            from { opacity: 0; transform: scale(0.92); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
         footer {
             background-color: rgba(3, 28, 21, 0.9);
             padding: clamp(24px, 5vw, 40px) 16px;
@@ -1279,6 +1339,16 @@
 
     </div>
 
+    <!-- Custom RSVP Confirmation Modal -->
+    <div class="rsvp-modal-overlay" id="rsvpModal">
+        <div class="rsvp-modal-card">
+            <div class="rsvp-modal-icon">❖</div>
+            <h3 class="rsvp-modal-title">Thank You!</h3>
+            <p class="rsvp-modal-message" id="rsvpModalMessage">Your response has been successfully sent.</p>
+            <button type="button" class="btn-primary" id="rsvpModalClose">Close</button>
+        </div>
+    </div>
+
     <!-- FOOTER STYLING -->
     <footer>
         <p>John Robert & Marjorie © 2026</p>
@@ -1505,13 +1575,34 @@
                 if (e.target === lightboxModal) closeLightbox();
             });
 
-            // --- 7. RSVP FORM SUBMISSION ---
+            // --- 7. RSVP FORM SUBMISSION WITH CUSTOM MODAL ---
+            const rsvpModal = document.getElementById('rsvpModal');
+            const rsvpModalClose = document.getElementById('rsvpModalClose');
+            const rsvpModalMessage = document.getElementById('rsvpModalMessage');
+
+            const showRsvpModal = (message) => {
+                if (rsvpModalMessage) rsvpModalMessage.innerText = message;
+                if (rsvpModal) rsvpModal.classList.add('show');
+            };
+
+            if (rsvpModalClose) {
+                rsvpModalClose.addEventListener('click', () => {
+                    if (rsvpModal) rsvpModal.classList.remove('show');
+                });
+            }
+
+            if (rsvpModal) {
+                rsvpModal.addEventListener('click', (e) => {
+                    if (e.target === rsvpModal) rsvpModal.classList.remove('show');
+                });
+            }
+
             if (rsvpForm) {
                 rsvpForm.addEventListener('submit', (event) => {
                     event.preventDefault();
                     
                     submitRsvpBtn.disabled = true;
-                    submitRsvpBtn.innerText = "Sending Response...";
+                    submitRsvpBtn.innerText = "SENDING RESPONSE...";
 
                     const scriptUrl = 'https://script.google.com/macros/s/AKfycbz1NacJtWNPg01m8tqd4dHxuPsjt_r-iOLUTc_r88UkoEEjPFSpX9g5fE0lzqp7qro/exec';
 
@@ -1530,11 +1621,15 @@
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(payload)
                     })
-                    .then(() => alert("Response Sent! Thank you."))
-                    .catch(() => alert("Response Sent! Thank you."))
+                    .then(() => {
+                        showRsvpModal("Response Sent! Thank you for celebrating with us.");
+                    })
+                    .catch(() => {
+                        showRsvpModal("Response Sent! Thank you for celebrating with us.");
+                    })
                     .finally(() => {
                         submitRsvpBtn.disabled = false;
-                        submitRsvpBtn.innerText = "Submit Response";
+                        submitRsvpBtn.innerText = "SUBMIT RESPONSE";
                         rsvpForm.reset();
                     });
                 });
