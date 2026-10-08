@@ -944,11 +944,32 @@
             overflow-x: auto;
         }
 
-        .emerald-nav a {
-            color: #f7f4e9; text-decoration: none; font: 600 clamp(7.5px, 1.8vw, 9.5px) Montserrat, sans-serif;
-            letter-spacing: .06em; text-transform: uppercase; padding: 6px 9px; border-radius: 30px; white-space: nowrap;
-            transition: background .2s, color .2s;
-        }
+       .emerald-nav a {
+    color: #f7f4e9;
+    text-decoration: none;
+    font: 600 clamp(7.5px, 1.8vw, 9.5px) Montserrat, sans-serif;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: 6px 9px;
+    border-radius: 30px;
+    white-space: nowrap;
+    transition: background 0.2s ease, color 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Only apply hover highlights on desktop/mouse devices */
+@media (hover: hover) {
+    .emerald-nav a:hover {
+        background: rgba(234, 219, 184, 0.4);
+        color: #f7f4e9;
+    }
+}
+
+/* Active State Strict Override */
+.emerald-nav a.active {
+    background: #eadbb8 !important;
+    color: #092b22 !important;
+}
 
         .emerald-nav a:hover, .emerald-nav a.active {
             background: #eadbb8; color: #092b22;
@@ -1363,48 +1384,62 @@
             const rsvpForm = document.getElementById('weddingRsvpForm');
             const submitRsvpBtn = document.getElementById('submitRsvpBtn');
 
-            // --- 1. ACTIVE NAVIGATION TRACKING (MOBILE-OPTIMIZED INTERSECTION OBSERVER) ---
-            const navLinks = document.querySelectorAll('.emerald-nav a');
-            const sections = document.querySelectorAll('section[id]');
-            let isManualClick = false;
+            // --- 1. ACTIVE NAVIGATION TRACKING (STRICT SINGLE HIGHLIGHT) ---
+const navLinks = document.querySelectorAll('.emerald-nav a');
+const sections = document.querySelectorAll('section[id]');
+let isManualClick = false;
 
-            const observerOptions = {
-                root: null,
-                rootMargin: '-20% 0px -50% 0px', // Focus region in viewport
-                threshold: 0
-            };
+const clearAllActive = () => {
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        link.blur(); // Remove mobile touch focus state
+    });
+};
 
-            const sectionObserver = new IntersectionObserver((entries) => {
-                if (isManualClick) return;
+const sectionObserver = new IntersectionObserver((entries) => {
+    if (isManualClick) return;
 
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const targetId = entry.target.getAttribute('id');
-                        navLinks.forEach(link => {
-                            const href = link.getAttribute('href').replace('#', '');
-                            if (href === targetId) {
-                                link.classList.add('active');
-                            } else {
-                                link.classList.remove('active');
-                            }
-                        });
-                    }
-                });
-            }, observerOptions);
+    // Find section with the highest visible ratio in viewport
+    let bestCandidate = null;
+    let maxRatio = 0;
 
-            sections.forEach(section => sectionObserver.observe(section));
+    sections.forEach(section => {
+        const rect = section.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+        
+        // Calculate visible percentage
+        const visibleHeight = Math.max(0, Math.min(rect.bottom, viewportHeight) - Math.max(rect.top, 0));
+        const ratio = visibleHeight / rect.height;
 
-            navLinks.forEach(link => {
-                link.addEventListener('click', function () {
-                    isManualClick = true;
-                    navLinks.forEach(item => item.classList.remove('active'));
-                    this.classList.add('active');
+        if (ratio > maxRatio) {
+            maxRatio = ratio;
+            bestCandidate = section.getAttribute('id');
+        }
+    });
 
-                    setTimeout(() => {
-                        isManualClick = false;
-                    }, 800);
-                });
-            });
+    if (bestCandidate) {
+        clearAllActive();
+        const activeLink = document.querySelector(`.emerald-nav a[href="#${bestCandidate}"]`);
+        if (activeLink) activeLink.classList.add('active');
+    }
+}, {
+    root: null,
+    threshold: [0.1, 0.3, 0.5, 0.7, 0.9]
+});
+
+sections.forEach(section => sectionObserver.observe(section));
+
+navLinks.forEach(link => {
+    link.addEventListener('click', function (e) {
+        isManualClick = true;
+        clearAllActive();
+        this.classList.add('active');
+
+        setTimeout(() => {
+            isManualClick = false;
+        }, 1000);
+    });
+});
 
             // --- 2. INTERACTIVE SPARKLE PARTICLES ENGINE ---
             const canvas = document.getElementById('sparkleCanvas');
