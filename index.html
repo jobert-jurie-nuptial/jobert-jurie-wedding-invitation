@@ -202,25 +202,28 @@
         }
 
         /* -------------------------------------------------------------
-           2. NAVIGATION BAR
+           2. NAVIGATION BAR WITH ACTIVE SCROLL-SPY
         ------------------------------------------------------------- */
         .royal-nav {
             position: fixed;
-            bottom: 24px;
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 100;
-            background: rgba(11, 43, 34, 0.9);
+            background: rgba(11, 43, 34, 0.95);
             backdrop-filter: blur(16px);
             border: 1px solid rgba(197, 160, 89, 0.4);
-            padding: 6px 10px;
+            padding: 4px 6px;
             border-radius: 40px;
             display: flex;
             align-items: center;
-            gap: 4px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-            max-width: calc(100vw - 32px);
+            justify-content: center;
+            gap: 2px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            width: calc(100% - 32px);
+            max-width: 500px;
             overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .royal-nav::-webkit-scrollbar { display: none; }
@@ -228,20 +231,22 @@
         .royal-nav a {
             color: #E2D7C3;
             text-decoration: none;
-            font-size: 0.65rem;
+            font-size: clamp(0.55rem, 2.2vw, 0.65rem);
             font-weight: 600;
-            letter-spacing: 1.5px;
+            letter-spacing: 1px;
             text-transform: uppercase;
-            padding: 8px 14px;
+            padding: 8px clamp(8px, 2.5vw, 14px);
             border-radius: 30px;
             white-space: nowrap;
             transition: all 0.3s ease;
+            flex-shrink: 0;
+            text-align: center;
         }
 
-        .royal-nav a:hover, .royal-nav a.active {
+        .royal-nav a.active {
             background: var(--gold-gradient);
             color: var(--emerald-dark);
-            box-shadow: 0 4px 12px rgba(197, 160, 89, 0.3);
+            box-shadow: 0 4px 12px rgba(197, 160, 89, 0.35);
         }
 
         /* -------------------------------------------------------------
@@ -307,17 +312,18 @@
         .hero-hashtag {
             font-family: var(--font-serif);
             font-style: italic;
-            font-size: clamp(0.9rem, 2.5vw, 1.3rem);
+            font-size: clamp(0.85rem, 2.5vw, 1.3rem);
             color: var(--gold-light);
             margin-top: 12px;
             opacity: 0.9;
+            word-break: break-all;
         }
 
         /* -------------------------------------------------------------
            GLOBAL CONTAINER & CARDS
         ------------------------------------------------------------- */
         section {
-            padding: clamp(60px, 8vw, 120px) 20px;
+            padding: clamp(50px, 8vw, 120px) 16px;
             position: relative;
             z-index: 2;
         }
@@ -329,7 +335,7 @@
 
         .section-header {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 35px;
         }
 
         .section-subtitle {
@@ -343,7 +349,7 @@
 
         .section-title {
             font-family: var(--font-serif);
-            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-size: clamp(1.8rem, 5vw, 3.2rem);
             color: var(--emerald-deep);
             font-weight: 400;
             letter-spacing: 1px;
@@ -371,7 +377,7 @@
             backdrop-filter: blur(12px);
             border: 1px solid rgba(197, 160, 89, 0.3);
             border-radius: 24px;
-            padding: clamp(24px, 5vw, 50px);
+            padding: clamp(20px, 4vw, 50px);
             box-shadow: 0 20px 50px rgba(11, 43, 34, 0.06);
             position: relative;
         }
@@ -382,16 +388,16 @@
         .countdown-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
+            gap: 8px;
             max-width: 600px;
-            margin: 30px auto 0 auto;
+            margin: 25px auto 0 auto;
         }
 
         .countdown-box {
             background: var(--emerald-deep);
             color: var(--bg-ivory);
-            padding: 20px 10px;
-            border-radius: 16px;
+            padding: 15px 5px;
+            border-radius: 14px;
             text-align: center;
             border: 1px solid var(--gold-base);
             box-shadow: 0 10px 25px rgba(11, 43, 34, 0.15);
@@ -399,18 +405,18 @@
 
         .countdown-num {
             font-family: var(--font-serif);
-            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-size: clamp(1.4rem, 4vw, 2.8rem);
             color: var(--gold-light);
             line-height: 1;
             display: block;
         }
 
         .countdown-label {
-            font-size: 0.6rem;
-            letter-spacing: 2px;
+            font-size: 0.55rem;
+            letter-spacing: 1px;
             text-transform: uppercase;
             opacity: 0.8;
-            margin-top: 6px;
+            margin-top: 4px;
             display: block;
         }
 
@@ -419,8 +425,8 @@
         ------------------------------------------------------------- */
         .event-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
         }
 
         .event-card {
@@ -441,7 +447,7 @@
 
         .event-img-wrapper {
             position: relative;
-            height: 200px;
+            height: 180px;
             overflow: hidden;
         }
 
@@ -466,7 +472,7 @@
         }
 
         .event-body {
-            padding: 30px;
+            padding: 24px;
             text-align: center;
             display: flex;
             flex-direction: column;
@@ -476,25 +482,25 @@
 
         .event-venue {
             font-family: var(--font-serif);
-            font-size: 1.5rem;
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
             color: var(--emerald-deep);
             margin-bottom: 8px;
             line-height: 1.2;
         }
 
         .event-time {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--text-gold);
             font-weight: 600;
             letter-spacing: 1px;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .event-address {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--text-muted);
-            margin-bottom: 24px;
-            line-height: 1.5;
+            margin-bottom: 20px;
+            line-height: 1.4;
         }
 
         .btn-gold {
@@ -520,87 +526,93 @@
         }
 
         /* -------------------------------------------------------------
-           6. ENTOURAGE SECTION (STRICT MALE LEFT / FEMALE RIGHT)
+           6. ENTOURAGE SECTION (RESPONSIVE AUTO-RESIZING TEXT)
         ------------------------------------------------------------- */
         .entourage-container {
             background: var(--emerald-deep);
             color: var(--bg-ivory);
-            border-radius: 28px;
-            padding: clamp(30px, 6vw, 60px) clamp(20px, 4vw, 40px);
+            border-radius: 24px;
+            padding: clamp(24px, 5vw, 60px) clamp(12px, 3vw, 40px);
             border: 1px solid var(--gold-base);
             box-shadow: 0 25px 60px rgba(0,0,0,0.3);
         }
 
         .entourage-section-title {
             font-family: var(--font-serif);
-            font-size: 1.4rem;
+            font-size: clamp(1.1rem, 3.5vw, 1.4rem);
             color: var(--gold-light);
             text-align: center;
-            letter-spacing: 2px;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
             margin-bottom: 20px;
             position: relative;
-            padding-bottom: 10px;
+            padding-bottom: 8px;
         }
 
         .entourage-section-title::after {
             content: '';
             position: absolute;
             bottom: 0; left: 50%; transform: translateX(-50%);
-            width: 60px; height: 1px;
+            width: 50px; height: 1px;
             background: var(--gold-base);
         }
 
-        /* Strict 2-Column Grid Layout */
+        /* Strict 2-Column Grid with Auto-Resizing Text */
         .grid-2col {
             display: grid !important;
             grid-template-columns: repeat(2, 1fr) !important;
-            gap: 20px 30px !important;
+            gap: 15px 12px !important;
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 35px;
         }
 
         .grid-3col {
             display: grid !important;
             grid-template-columns: repeat(3, 1fr) !important;
-            gap: 20px 15px !important;
+            gap: 15px 8px !important;
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 35px;
         }
 
         .column-header {
             font-family: var(--font-serif);
-            font-size: 1.1rem;
-            color: var(--gold-light);
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 12px;
-            border-bottom: 1px solid rgba(197, 160, 89, 0.3);
-            padding-bottom: 6px;
-        }
-
-        .person-name {
-            font-size: 0.85rem;
-            color: #FFFFFF;
-            margin: 4px 0;
-            font-weight: 300;
-            letter-spacing: 0.5px;
-        }
-
-        .role-title {
-            font-size: 0.7rem;
+            font-size: clamp(0.75rem, 3.2vw, 1.1rem);
             color: var(--gold-light);
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 6px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.3);
+            padding-bottom: 4px;
+            white-space: normal;
+            line-height: 1.2;
+        }
+
+        .person-name {
+            font-size: clamp(0.65rem, 2.8vw, 0.85rem);
+            color: #FFFFFF;
+            margin: 4px 0;
+            font-weight: 300;
+            letter-spacing: 0.2px;
+            line-height: 1.35;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .role-title {
+            font-size: clamp(0.6rem, 2.5vw, 0.7rem);
+            color: var(--gold-light);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 4px;
             font-weight: 500;
         }
 
         .role-desc {
-            font-size: 0.65rem;
+            font-size: clamp(0.55rem, 2vw, 0.65rem);
             color: var(--gold-light);
             font-style: italic;
             opacity: 0.8;
+            display: inline-block;
         }
 
         /* -------------------------------------------------------------
@@ -614,18 +626,18 @@
             justify-content: center;
             margin-bottom: 30px;
             overflow: hidden;
-            padding: 20px 0;
+            padding: 15px 0;
         }
 
         .gallery-track {
             display: flex;
             align-items: center;
             justify-content: flex-start;
-            gap: 15px;
+            gap: 12px;
             overflow-x: auto;
             scroll-behavior: smooth;
             scroll-snap-type: x mandatory;
-            padding: 20px 35%;
+            padding: 20px 30%;
             width: 100%;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
@@ -634,9 +646,9 @@
         .gallery-track::-webkit-scrollbar { display: none; }
 
         .gallery-card {
-            flex: 0 0 clamp(220px, 45vw, 300px);
+            flex: 0 0 clamp(200px, 55vw, 280px);
             aspect-ratio: 4/5;
-            border-radius: 20px;
+            border-radius: 18px;
             overflow: hidden;
             border: 1px solid rgba(197, 160, 89, 0.3);
             background-color: var(--emerald-deep);
@@ -658,7 +670,7 @@
         }
 
         .gallery-card.active-slide {
-            transform: scale(1.08);
+            transform: scale(1.05);
             opacity: 1;
             filter: brightness(1);
             border: 2px solid var(--gold-base);
@@ -673,10 +685,10 @@
             background: rgba(11, 43, 34, 0.9);
             color: var(--gold-light);
             border: 1px solid var(--gold-base);
-            width: 44px;
-            height: 44px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             cursor: pointer;
             z-index: 20;
             backdrop-filter: blur(8px);
@@ -689,15 +701,14 @@
         .carousel-btn:hover {
             background: var(--gold-gradient);
             color: var(--emerald-dark);
-            box-shadow: 0 0 15px rgba(197, 160, 89, 0.5);
         }
 
-        .prev-btn { left: 10px; }
-        .next-btn { right: 10px; }
+        .prev-btn { left: 5px; }
+        .next-btn { right: 5px; }
 
         .video-card {
-            margin-top: 30px;
-            border-radius: 20px;
+            margin-top: 25px;
+            border-radius: 18px;
             overflow: hidden;
             background: #000;
             aspect-ratio: 16/9;
@@ -714,8 +725,8 @@
            8. GUEST GUIDE & COLOR PALETTE
         ------------------------------------------------------------- */
         .attire-container {
-            margin: 20px 0;
-            padding: 8px;
+            margin: 15px 0;
+            padding: 6px;
             background: rgba(11, 43, 34, 0.04);
             border: 1px solid rgba(197, 160, 89, 0.3);
             border-radius: 16px;
@@ -732,25 +743,19 @@
         .palette-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin-top: 20px;
-            padding: 12px;
+            gap: 10px;
+            margin-top: 15px;
+            padding: 10px;
             background: rgba(11, 43, 34, 0.04);
             border-radius: 16px;
             border: 1px solid rgba(197, 160, 89, 0.2);
         }
 
         .swatch-box {
-            height: 55px;
-            border-radius: 12px;
+            height: 48px;
+            border-radius: 10px;
             border: 1px solid rgba(255, 255, 255, 0.6);
             box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .swatch-box:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 18px rgba(197, 160, 89, 0.25);
         }
 
         /* -------------------------------------------------------------
@@ -759,36 +764,36 @@
         .rsvp-card {
             background: var(--emerald-deep);
             color: var(--bg-ivory);
-            border-radius: 28px;
-            padding: clamp(30px, 6vw, 60px);
+            border-radius: 24px;
+            padding: clamp(24px, 5vw, 50px);
             border: 1px solid var(--gold-base);
             box-shadow: 0 30px 70px rgba(11, 43, 34, 0.25);
         }
 
         .form-group {
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             text-align: left;
         }
 
         .form-label {
             display: block;
-            font-size: 0.7rem;
-            letter-spacing: 2px;
+            font-size: 0.68rem;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
             color: var(--gold-light);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             font-weight: 500;
         }
 
         .form-control {
             width: 100%;
-            padding: 14px 18px;
+            padding: 12px 14px;
             background: rgba(255, 255, 255, 0.08);
             border: 1px solid rgba(197, 160, 89, 0.4);
             border-radius: 12px;
             color: #FFFFFF;
             font-family: var(--font-sans);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             outline: none;
             transition: border-color 0.3s ease;
         }
@@ -800,17 +805,17 @@
 
         .radio-options {
             display: flex;
-            gap: 20px;
+            gap: 15px;
             flex-wrap: wrap;
-            margin-top: 8px;
+            margin-top: 6px;
         }
 
         .radio-btn {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             cursor: pointer;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: #FFFFFF;
         }
 
@@ -837,9 +842,9 @@
 
         .modal-box {
             background: var(--bg-ivory);
-            border-radius: 24px;
-            padding: 40px;
-            max-width: 450px;
+            border-radius: 20px;
+            padding: 30px 20px;
+            max-width: 400px;
             width: 100%;
             text-align: center;
             border: 1px solid var(--gold-base);
@@ -848,16 +853,16 @@
 
         .modal-title {
             font-family: var(--font-serif);
-            font-size: 2rem;
+            font-size: 1.8rem;
             color: var(--emerald-deep);
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         /* Lightbox */
         .lightbox {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9);
+            background: rgba(0,0,0,0.92);
             z-index: 99999;
             display: flex;
             align-items: center;
@@ -865,6 +870,7 @@
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s ease;
+            padding: 15px;
         }
 
         .lightbox.active {
@@ -873,17 +879,17 @@
         }
 
         .lightbox img {
-            max-width: 90vw;
+            max-width: 95vw;
             max-height: 85vh;
-            border-radius: 12px;
-            border: 2px solid var(--gold-base);
+            border-radius: 10px;
+            border: 1px solid var(--gold-base);
         }
 
         footer {
             text-align: center;
-            padding: 40px 20px 100px 20px;
-            font-size: 0.75rem;
-            letter-spacing: 2px;
+            padding: 30px 20px 90px 20px;
+            font-size: 0.7rem;
+            letter-spacing: 1.5px;
             color: var(--text-muted);
             text-transform: uppercase;
         }
@@ -910,8 +916,8 @@
     </div>
 
     <!-- 2. NAVIGATION BAR -->
-    <nav class="royal-nav">
-        <a href="#hero">Home</a>
+    <nav class="royal-nav" id="royalNav">
+        <a href="#hero" class="active">Home</a>
         <a href="#details">Event</a>
         <a href="#entourage">Entourage</a>
         <a href="#gallery">Moments</a>
@@ -936,7 +942,7 @@
                 <p class="section-subtitle">We Are Getting Married</p>
                 <h2 class="section-title">Save The Date</h2>
                 <div class="title-divider">❖</div>
-                <p style="max-width: 600px; margin: 20px auto 0 auto; color: var(--text-muted);">
+                <p style="max-width: 600px; margin: 15px auto 0 auto; color: var(--text-muted); font-size: 0.85rem;">
                     We invite you to share in our joy as we exchange vows and celebrate the beginning of our new chapter together.
                 </p>
 
@@ -975,7 +981,7 @@
                 <!-- Ceremony Card -->
                 <div class="event-card">
                     <div class="event-img-wrapper">
-                        <img src="venue-church.jpg" alt="Church Venue">
+                        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=600&auto=format&fit=crop" alt="Church Venue">
                         <span class="event-badge">Ceremony</span>
                     </div>
                     <div class="event-body">
@@ -991,7 +997,7 @@
                 <!-- Reception Card -->
                 <div class="event-card">
                     <div class="event-img-wrapper">
-                        <img src="venue-reception.jpg" alt="Reception Venue">
+                        <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=600&auto=format&fit=crop" alt="Reception Venue">
                         <span class="event-badge">Reception</span>
                     </div>
                     <div class="event-body">
@@ -1180,9 +1186,9 @@
                 <div class="title-divider">❖</div>
             </div>
 
-            <div class="card-luxury" style="margin-bottom: 24px;">
-                <h3 style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--emerald-deep); margin-bottom: 10px;">Attire & Motif</h3>
-                <p style="color: var(--text-muted); font-size: 0.9rem;">We request our guests to dress in comfortable <strong>Semi-Formal Attire</strong> matching our wedding color palette.</p>
+            <div class="card-luxury" style="margin-bottom: 20px;">
+                <h3 style="font-family: var(--font-serif); font-size: 1.3rem; color: var(--emerald-deep); margin-bottom: 8px;">Attire & Motif</h3>
+                <p style="color: var(--text-muted); font-size: 0.85rem;">We request our guests to dress in comfortable <strong>Semi-Formal Attire</strong> matching our wedding color palette.</p>
                 
                 <!-- Attire Guide Image (guest.png with fallback) -->
                 <div class="attire-container">
@@ -1190,7 +1196,7 @@
                 </div>
 
                 <!-- Complete 8-Color Palette -->
-                <p style="font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-gold); margin-top: 16px; font-weight: 600;">Color Palette</p>
+                <p style="font-size: 0.7rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-gold); margin-top: 14px; font-weight: 600;">Color Palette</p>
                 <div class="palette-grid">
                     <div class="swatch-box" style="background: #0C3328;" title="Dark Emerald Green"></div>
                     <div class="swatch-box" style="background: linear-gradient(135deg, #d8a84e, #c08d32);" title="Satin Gold"></div>
@@ -1204,8 +1210,8 @@
             </div>
 
             <div class="card-luxury">
-                <h3 style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--emerald-deep); margin-bottom: 10px;">Gift Policy & Privacy</h3>
-                <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <h3 style="font-family: var(--font-serif); font-size: 1.3rem; color: var(--emerald-deep); margin-bottom: 8px;">Gift Policy & Privacy</h3>
+                <p style="color: var(--text-muted); font-size: 0.85rem;">
                     Your presence and prayers are the greatest gift. However, should you wish to give, a monetary gift to help start our new journey would be humbly appreciated.
                 </p>
             </div>
@@ -1219,7 +1225,7 @@
                 <p class="section-subtitle">Response Requested</p>
                 <h2 class="section-title">RSVP</h2>
                 <div class="title-divider">❖</div>
-                <p style="color: var(--text-muted); margin-top: 10px;">Please respond by November 12, 2026</p>
+                <p style="color: var(--text-muted); margin-top: 8px; font-size: 0.85rem;">Please respond by November 12, 2026</p>
             </div>
 
             <div class="rsvp-card">
@@ -1265,7 +1271,7 @@
                         <textarea id="rsvpNotes" class="form-control" rows="3" placeholder="Write your message..."></textarea>
                     </div>
 
-                    <button type="submit" id="submitRsvpBtn" class="btn-gold" style="width: 100%; padding: 16px; margin-top: 10px;">
+                    <button type="submit" id="submitRsvpBtn" class="btn-gold" style="width: 100%; padding: 14px; margin-top: 10px;">
                         Submit Response
                     </button>
                 </form>
@@ -1277,7 +1283,7 @@
     <div class="modal-overlay" id="rsvpModal">
         <div class="modal-box">
             <h3 class="modal-title">Thank You!</h3>
-            <p id="modalMsg" style="color: var(--text-muted); margin-bottom: 20px;">Your response has been saved.</p>
+            <p id="modalMsg" style="color: var(--text-muted); margin-bottom: 20px; font-size: 0.85rem;">Your response has been saved.</p>
             <button class="btn-gold" onclick="closeModal()">Close</button>
         </div>
     </div>
@@ -1372,6 +1378,34 @@
                 }
             }, 1000);
 
+            // Dynamic Active Navigation Bar Scroll Spy
+            const sections = document.querySelectorAll('section[id], header[id]');
+            const navLinks = document.querySelectorAll('.royal-nav a');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '-30% 0px -50% 0px',
+                threshold: 0
+            };
+
+            const sectionObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const activeId = entry.target.getAttribute('id');
+                        navLinks.forEach(link => {
+                            if (link.getAttribute('href') === `#${activeId}`) {
+                                link.classList.add('active');
+                                link.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                            } else {
+                                link.classList.remove('active');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => sectionObserver.observe(section));
+
             // Coverflow Carousel Engine
             const galleryTrack = document.getElementById('galleryTrack');
             const galleryCards = document.querySelectorAll('.gallery-card');
@@ -1402,12 +1436,12 @@
             setTimeout(updateActiveCard, 200);
 
             prevBtn.addEventListener('click', () => {
-                const cardWidth = galleryCards[0].offsetWidth + 15;
+                const cardWidth = galleryCards[0].offsetWidth + 12;
                 galleryTrack.scrollBy({ left: -cardWidth, behavior: 'smooth' });
             });
 
             nextBtn.addEventListener('click', () => {
-                const cardWidth = galleryCards[0].offsetWidth + 15;
+                const cardWidth = galleryCards[0].offsetWidth + 12;
                 galleryTrack.scrollBy({ left: cardWidth, behavior: 'smooth' });
             });
 
