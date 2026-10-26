@@ -1355,9 +1355,22 @@
             document.getElementById('rsvpModal').classList.add('active');
         }
 
-        function closeModal() {
-            document.getElementById('modalModal').classList.remove('active');
-        }
+     function closeModal() {
+    // Select the modal element by its actual ID from your code (e.g., 'rsvpModal' or 'modalModal')
+    // Referencing the ID 'rsvpModal' shown in the last step.
+    const modal = document.getElementById('rsvpModal');
+    
+    // Safety check in case the element isn't found
+    if (modal) {
+        // Option A: If your CSS uses an 'active' class to show it:
+        modal.classList.remove('active');
+        
+        // Option B (Alternate if above doesn't work): Explicitly hide it via inline style:
+        // modal.style.display = 'none';
+    } else {
+        console.error("Modal element not found! Please check your ID.");
+    }
+}
     </script>
 </body>
 </html>
