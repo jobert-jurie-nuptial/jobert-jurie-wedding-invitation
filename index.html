@@ -289,14 +289,31 @@
         /* -------------------------------------------------------------
            3. HERO SECTION
         ------------------------------------------------------------- */
-        .hero-section {
+       /*  .hero-section {
             position: relative;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             background: linear-gradient(180deg, rgba(7, 31, 24, 0.75) 0%, rgba(11, 43, 34, 0.9) 100%), 
-                        url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1920&auto=format&fit=crop') center/cover no-repeat;
+                        url('jandm.png') center/cover no-repeat;
+            color: var(--bg-ivory);
+            text-align: center;
+            padding: 60px 20px;
+        } */
+
+        .hero-section {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #0B2B22; /* Solid emerald theme color for empty screen edges */
+            background-image: linear-gradient(180deg, rgba(7, 31, 24, 0.75) 0%, rgba(11, 43, 34, 0.9) 100%), 
+                              url('jandm.png');
+            background-position: center;
+            background-size: contain; /* Shows the complete image without cutting anything off */
+            background-repeat: no-repeat;
             color: var(--bg-ivory);
             text-align: center;
             padding: 60px 20px;
@@ -1182,44 +1199,67 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
 
-            // Background Music Setup & Auto-play on Envelope Open
-            const bgAudio = document.getElementById('bgAudio');
-            const musicToggleBtn = document.getElementById('musicToggleBtn');
-            let isPlaying = false;
+    const bgAudio = document.getElementById('bgAudio');
+    const musicToggleBtn = document.getElementById('musicToggleBtn');
+    let isPlaying = false;
 
-            const toggleMusic = () => {
-                if (isPlaying) {
-                    bgAudio.pause();
-                    musicToggleBtn.classList.remove('playing');
-                    isPlaying = false;
-                } else {
-                    bgAudio.play().then(() => {
-                        musicToggleBtn.classList.add('playing');
-                        isPlaying = true;
-                    }).catch(e => console.log("Audio play blocked by browser policy:", e));
-                }
-            };
+    // 1. Force background pre-buffering immediately upon page open
+    bgAudio.load();
 
-            musicToggleBtn.addEventListener('click', toggleMusic);
+    // 2. Configure iOS Safari Audio Session to bypass the silent switch
+    if ('audioSession' in navigator) {
+        try {
+            navigator.audioSession.type = 'playback';
+        } catch (e) {
+            console.log('AudioSession setting unsupported:', e);
+        }
+    }
 
-            // Wax Seal Envelope Opening Animation & Start Audio
-            const waxSeal = document.getElementById('waxSeal');
-            const envelopeCard = document.getElementById('envelopeCard');
-            const envelopeWrapper = document.getElementById('envelopeWrapper');
-
-            waxSeal.addEventListener('click', () => {
-                envelopeCard.classList.add('opening');
-                
-                // Automatically start music when wax seal is tapped
-                bgAudio.play().then(() => {
-                    musicToggleBtn.classList.add('playing');
-                    isPlaying = true;
-                }).catch(e => console.log("Audio autoplay prevented:", e));
-
-                setTimeout(() => {
-                    envelopeWrapper.classList.add('opened');
-                }, 800);
+    const startAudio = () => {
+        bgAudio.muted = false;
+        const playPromise = bgAudio.play();
+        
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                musicToggleBtn.classList.add('playing');
+                isPlaying = true;
+            }).catch(error => {
+                console.log("Audio playback prevented or buffering:", error);
+                musicToggleBtn.classList.remove('playing');
+                isPlaying = false;
             });
+        }
+    };
+
+    const toggleMusic = () => {
+        if (isPlaying) {
+            bgAudio.pause();
+            musicToggleBtn.classList.remove('playing');
+            isPlaying = false;
+        } else {
+            startAudio();
+        }
+    };
+
+    musicToggleBtn.addEventListener('click', toggleMusic);
+
+    // 3. Trigger playback immediately when tapping the Wax Seal
+    const waxSeal = document.getElementById('waxSeal');
+    const envelopeCard = document.getElementById('envelopeCard');
+    const envelopeWrapper = document.getElementById('envelopeWrapper');
+
+    waxSeal.addEventListener('click', () => {
+        envelopeCard.classList.add('opening');
+        
+        // Execute play command directly on user tap gesture
+        startAudio();
+
+        setTimeout(() => {
+            envelopeWrapper.classList.add('opened');
+        }, 800);
+    });
+
+    // ... (keep the rest of your JS for particles, countdown timer, and RSVP)
 
             // Sparkle Particle Effect
             const canvas = document.getElementById('sparkleCanvas');
